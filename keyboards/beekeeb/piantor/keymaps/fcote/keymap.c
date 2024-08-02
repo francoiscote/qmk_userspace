@@ -13,6 +13,17 @@ enum layers {
   _FUN,
 };
 
+enum keycodes {
+    // Custom oneshot mod implementation with no timers.
+    OS_SHFT = SAFE_RANGE,
+    OS_CTRL,
+    OS_ALT,
+    OS_CMD,
+
+    SW_WIN,  // Switch to next window         (cmd-tab)
+    SW_LANG, // Switch to next input language (ctl-spc)
+};
+
 #define MAC_OS_COPY   LGUI(KC_C)
 #define MAC_OS_CUT    LGUI(KC_X)
 #define MAC_OS_PASTE  LGUI(KC_V)
@@ -33,7 +44,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         LT(_FUN,KC_ESC), LT(_NAV,KC_BSPC), LT(_WM,KC_TAB),                 LT(_SYMBOLS,KC_ENTER), LT(_NUM,KC_SPACE), LT(_MEDIA,KC_DEL)
     ),      
     [_NAV] = LAYOUT_split_3x5_3(
-        XXXXXXX,              MAC_OS_wQUIT,             MAC_OS_CLOSE,            XXXXXXX,              XXXXXXX,                  XXXXXXX,              XXXXXXX,              XXXXXXX,              XXXXXXX,              XXXXXXX,        \
+        XXXXXXX,              MAC_OS_QUIT,             MAC_OS_CLOSE,            XXXXXXX,              XXXXXXX,                  XXXXXXX,              XXXXXXX,              XXXXXXX,              XXXXXXX,              XXXXXXX,        \
         KC_LCTL,              KC_LALT,                 KC_LGUI,                 KC_LSFT,              MAC_OS_UNDO,              KC_LEFT,              KC_DOWN,              KC_UP,              KC_RIGHT,           CW_TOGG,      \
         XXXXXXX,              MAC_OS_CUT,              MAC_OS_COPY,             MAC_OS_PASTE,         MAC_OS_REDO,              KC_HOME,              KC_PGDN,              KC_PGUP,            KC_END,             XXXXXXX,      \
         XXXXXXX, XXXXXXX, XXXXXXX,                                                                                                _______,  _______, _______
@@ -73,9 +84,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 bool is_oneshot_cancel_key(uint16_t keycode) {
     switch (keycode) {
-    case LA_SYM:
-    case LA_NAV:
-        return true;
+    //case LA_SYM:
+    //case LA_NAV:
+        //return true;
     default:
         return false;
     }
@@ -83,8 +94,8 @@ bool is_oneshot_cancel_key(uint16_t keycode) {
 
 bool is_oneshot_ignored_key(uint16_t keycode) {
     switch (keycode) {
-    case LA_SYM:
-    case LA_NAV:
+    //case LA_SYM:
+    //case LA_NAV:
     case KC_LSFT:
     case OS_SHFT:
     case OS_CTRL:
@@ -134,6 +145,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-layer_state_t layer_state_set_user(layer_state_t state) {
-    return update_tri_layer_state(state, SYM, NAV, NUM);
-}
+// layer_state_t layer_state_set_user(layer_state_t state) {
+//     return update_tri_layer_state(state, SYM, NAV, NUM);
+// }
